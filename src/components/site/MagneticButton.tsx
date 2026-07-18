@@ -30,11 +30,20 @@ export function MagneticButton({
   const reset = () => { x.set(0); y.set(0); };
 
   const base =
-    "group relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.18em] transition-colors will-change-transform select-none";
-  const styles =
-    variant === "primary"
-      ? "bg-primary text-primary-foreground hover:bg-primary/90"
-      : "border border-border bg-transparent text-foreground hover:bg-surface";
+    "group relative inline-flex items-center gap-2 px-7 py-3.5 font-mono text-[11px] uppercase tracking-[0.22em] transition-all will-change-transform select-none";
+
+  const primaryStyle = {
+    background: "#FF3333",
+    color: "#F5F5F5",
+    border: "1px solid #FF3333",
+    borderRadius: 0,
+  };
+  const ghostStyle = {
+    background: "transparent",
+    color: "#F5F5F5",
+    border: "1px solid rgba(245,245,245,0.2)",
+    borderRadius: 0,
+  };
 
   const Comp: any = href ? motion.a : motion.button;
   return (
@@ -44,8 +53,26 @@ export function MagneticButton({
       onClick={onClick}
       onMouseMove={handleMove}
       onMouseLeave={reset}
-      style={{ x, y }}
-      className={`${base} ${styles} ${className}`}
+      style={{ x, y, ...(variant === "primary" ? primaryStyle : ghostStyle) }}
+      className={`${base} ${className}`}
+      onMouseEnter={(e: MouseEvent<HTMLElement>) => {
+        if (variant === "primary") {
+          (e.currentTarget as HTMLElement).style.background = "transparent";
+          (e.currentTarget as HTMLElement).style.color = "#FF3333";
+        } else {
+          (e.currentTarget as HTMLElement).style.background = "rgba(245,245,245,0.05)";
+          (e.currentTarget as HTMLElement).style.borderColor = "rgba(245,245,245,0.4)";
+        }
+      }}
+      onMouseLeaveCapture={(e: MouseEvent<HTMLElement>) => {
+        if (variant === "primary") {
+          (e.currentTarget as HTMLElement).style.background = "#FF3333";
+          (e.currentTarget as HTMLElement).style.color = "#F5F5F5";
+        } else {
+          (e.currentTarget as HTMLElement).style.background = "transparent";
+          (e.currentTarget as HTMLElement).style.borderColor = "rgba(245,245,245,0.2)";
+        }
+      }}
     >
       <motion.span style={{ x, y }} className="pointer-events-none flex items-center gap-2">
         {children}

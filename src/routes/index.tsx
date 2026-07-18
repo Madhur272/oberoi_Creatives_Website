@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Preloader } from "@/components/site/Preloader";
 import { CustomCursor } from "@/components/site/CustomCursor";
 import { Nav } from "@/components/site/Nav";
+import { MobileNav } from "@/components/site/MobileNav";
 import { Hero } from "@/components/site/Hero";
 import { Marquee } from "@/components/site/Marquee";
 import { ServicesBento } from "@/components/site/ServicesBento";
@@ -21,7 +22,8 @@ function Index() {
       <Preloader />
       <CustomCursor />
       <Nav />
-      <main>
+      {/* pb-20 on mobile gives clearance above the bottom tab bar (56px bar + 4px breathing room) */}
+      <main className="pb-20 md:pb-0">
         <Hero />
         <Marquee />
         <ServicesBento />
@@ -31,6 +33,8 @@ function Index() {
         <Contact />
       </main>
       <Footer />
+      {/* Bottom-docked tab bar — mobile only, hidden on md+ */}
+      <MobileNav />
     </div>
   );
 }

@@ -1,152 +1,398 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ChangeEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionLabel } from "./SectionLabel";
-import { SplitText } from "./SplitText";
 
 // ─────────────────────────────────────────────────────────────
 // Web3Forms — free static form backend, no server required.
 //   1. Grab your access key at https://web3forms.com (free)
 //   2. Replace the string below.
-//   3. Submissions land in the Gmail you registered.
 // ─────────────────────────────────────────────────────────────
 const WEB3FORMS_ACCESS_KEY = "REPLACE_WITH_YOUR_WEB3FORMS_KEY";
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
-type Mode = "demo" | "service";
+type Play = "" | "15k" | "20k" | "custom";
 
-function Field({ id, label, type = "text", required = true, textarea = false }: { id: string; label: string; type?: string; required?: boolean; textarea?: boolean }) {
-  const [val, setVal] = useState("");
-  const filled = val.length > 0;
-  const cls = "peer w-full border-b border-border bg-transparent pb-2 pt-6 text-[15px] text-foreground outline-none transition-colors focus:border-primary";
+const PLAY_OPTIONS: { value: Play; label: string; price: string }[] = [
+  { value: "15k",    label: "15K Growth Engine",  price: "₹15,000/mo" },
+  { value: "20k",    label: "20K Premium Build",  price: "₹20,000/mo" },
+  { value: "custom", label: "Custom Build",        price: "Let's talk" },
+];
+
+// ─── Ticket field ─────────────────────────────────────────────────────────────
+
+function TicketField({
+  id,
+  label,
+  sublabel,
+  type = "text",
+  required = true,
+  placeholder = "",
+  value,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  sublabel?: string;
+  type?: string;
+  required?: boolean;
+  placeholder?: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   return (
-    <label htmlFor={id} className="relative block">
-      <span className={`pointer-events-none absolute left-0 origin-left font-mono text-[11px] uppercase tracking-[0.18em] transition-all ${filled ? "top-1 scale-90 text-primary" : "top-6 text-muted-foreground"} peer-focus:top-1 peer-focus:scale-90 peer-focus:text-primary`}>{label}</span>
-      {textarea ? (
-        <textarea id={id} name={id} required={required} rows={3} value={val} onChange={(e) => setVal(e.target.value)} className={cls} />
-      ) : (
-        <input id={id} name={id} type={type} required={required} value={val} onChange={(e) => setVal(e.target.value)} className={cls} />
-      )}
-    </label>
+    <div className="border-b" style={{ borderColor: "rgba(245,245,245,0.08)" }}>
+      {/* Stack vertically on mobile, side-by-side on sm+ */}
+      <div className="flex flex-col gap-1 px-4 py-4 sm:flex-row sm:items-start sm:gap-4 sm:px-6">
+        {/* Label */}
+        <div className="sm:w-44 sm:shrink-0 sm:pt-0.5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em]" style={{ color: "#FF3333" }}>
+            {label}
+          </div>
+          {sublabel && (
+            <div className="mt-0.5 font-mono text-[9px] leading-relaxed" style={{ color: "#555555" }}>
+              {sublabel}
+            </div>
+          )}
+        </div>
+        {/* Input */}
+        <input
+          id={id}
+          name={id}
+          type={type}
+          required={required}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="flex-1 bg-transparent font-mono text-[13px] outline-none placeholder:text-[#333333] transition-colors"
+          style={{ color: "#F5F5F5" }}
+          onFocus={(e) => {
+            const row = e.currentTarget.closest("div.border-b") as HTMLElement | null;
+            if (row) row.style.borderColor = "rgba(255,51,51,0.4)";
+          }}
+          onBlur={(e) => {
+            const row = e.currentTarget.closest("div.border-b") as HTMLElement | null;
+            if (row) row.style.borderColor = "rgba(245,245,245,0.08)";
+          }}
+        />
+      </div>
+    </div>
   );
 }
 
+// ─── Play selector (dropdown replacement) ────────────────────────────────────
+
+function PlaySelector({
+  value,
+  onChange,
+}: {
+  value: Play;
+  onChange: (v: Play) => void;
+}) {
+  return (
+    <div className="border-b" style={{ borderColor: "rgba(245,245,245,0.08)" }}>
+      <div className="px-4 py-4 sm:px-6">
+        <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em]" style={{ color: "#FF3333" }}>
+          Select Your Play
+          <span className="ml-2 font-mono text-[9px]" style={{ color: "#555555" }}>
+            (required)
+          </span>
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+          {PLAY_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onChange(opt.value)}
+              className="flex items-center justify-between px-4 py-3 transition-all sm:flex-col sm:items-start"
+              style={{
+                background: value === opt.value ? "rgba(255,51,51,0.12)" : "transparent",
+                border: value === opt.value
+                  ? "1px solid #FF3333"
+                  : "1px solid rgba(245,245,245,0.12)",
+                width: "100%",
+              }}
+            >
+              <span
+                className="font-mono text-[11px] uppercase tracking-[0.16em]"
+                style={{ color: value === opt.value ? "#F5F5F5" : "#888888" }}
+              >
+                {opt.label}
+              </span>
+              <span
+                className="font-mono text-[10px] sm:mt-1"
+                style={{ color: value === opt.value ? "#FF3333" : "#444444" }}
+              >
+                {opt.price}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Bottleneck field ─────────────────────────────────────────────────────────
+
+function BottleneckField({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="border-b" style={{ borderColor: "rgba(245,245,245,0.08)" }}>
+      <div className="px-4 py-4 sm:px-6">
+        <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.22em]" style={{ color: "#FF3333" }}>
+          Biggest bottleneck right now?
+        </div>
+        <div className="mb-2 font-mono text-[9px]" style={{ color: "#555555" }}>
+          No views? No time to shoot? No strategy? Tell us in one line.
+        </div>
+        <input
+          id="bottleneck"
+          name="bottleneck"
+          type="text"
+          required
+          placeholder="e.g. We post but nothing gets views..."
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full bg-transparent font-mono text-[13px] outline-none placeholder:text-[#333333]"
+          style={{ color: "#F5F5F5" }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// ─── Contact section ──────────────────────────────────────────────────────────
+
 export function Contact() {
-  const [mode, setMode] = useState<Mode>("service");
+  const [name, setName] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [play, setPlay] = useState<Play>("");
+  const [bottleneck, setBottleneck] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "ok" | "err">("idle");
   const [error, setError] = useState("");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setState("sending"); setError("");
+    if (!play) return;
+    setState("sending");
+    setError("");
+
+    const selectedPlay = PLAY_OPTIONS.find((p) => p.value === play);
     const fd = new FormData(e.currentTarget);
     fd.append("access_key", WEB3FORMS_ACCESS_KEY);
-    fd.append("subject", `${mode === "demo" ? "Demo request" : "Service booking"} — Sam Creatives`);
-    fd.append("from_name", "Sam Creatives Site");
-    fd.append("intent", mode);
+    fd.append(
+      "subject",
+      `New booking [${selectedPlay?.label}] — Sam Creattive`
+    );
+    fd.append("from_name", "Sam Creattive Site");
+    fd.append("play", selectedPlay?.label ?? play);
+
     try {
       const res = await fetch(WEB3FORMS_ENDPOINT, { method: "POST", body: fd });
       const json = await res.json();
-      if (json.success) { setState("ok"); e.currentTarget.reset(); }
-      else { setState("err"); setError(json.message ?? "Something went wrong."); }
+      if (json.success) {
+        setState("ok");
+        e.currentTarget.reset();
+        setName(""); setInstagram(""); setPlay(""); setBottleneck("");
+      } else {
+        setState("err");
+        setError(json.message ?? "Something went wrong.");
+      }
     } catch (err) {
       setState("err");
       setError(err instanceof Error ? err.message : "Network error");
     }
   };
 
-  return (
-    <section id="contact" className="relative py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-center">
-        <div className="h-[500px] w-[900px] accent-glow opacity-20 blur-3xl" />
-      </div>
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
-        <SectionLabel>Start something</SectionLabel>
-        <h2 className="mt-6 font-display text-5xl leading-[0.95] tracking-tight sm:text-7xl">
-          <SplitText text="Let's put your brand" />
-          <br />
-          <SplitText text="on the timeline." className="italic text-primary" />
-        </h2>
+  const selectedPlay = PLAY_OPTIONS.find((p) => p.value === play);
 
-        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.2fr]">
-          <div className="space-y-8 text-sm text-muted-foreground">
-            <p className="max-w-md text-[15px] leading-relaxed text-foreground/85">
-              Booking Q3 — response within one business day. Prefer email?
-            </p>
-            <a href="mailto:hello@samcreatives.co" className="group inline-flex items-center gap-3 font-display text-2xl text-foreground underline decoration-primary/50 decoration-2 underline-offset-8 transition-colors hover:text-primary sm:text-3xl">
-              hello@samcreatives.co
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"><path d="M7 17L17 7M9 7h8v8"/></svg>
+  return (
+    <section id="contact" className="relative py-16 sm:py-24">
+      {/* Red gradient rule */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{ background: "linear-gradient(to right, transparent, #FF3333, transparent)" }}
+      />
+
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-8">
+        <SectionLabel>Book Your Slot</SectionLabel>
+
+        <div className="mt-6 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <h2
+            className="uppercase"
+            style={{
+              fontFamily: "Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif",
+              fontSize: "clamp(3.5rem, 9vw, 7rem)",
+              lineHeight: 0.88,
+              letterSpacing: "-0.02em",
+              color: "#F5F5F5",
+            }}
+          >
+            READY TO
+            <br />
+            <span style={{ color: "#FF3333" }}>SHOOT?</span>
+          </h2>
+          <p className="max-w-xs font-mono text-[12px] leading-[1.8]" style={{ color: "#888888" }}>
+            4 client max. 2 slots currently open. Fill the order ticket — we'll
+            audit your Instagram before the call so we hit the ground running.
+          </p>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr]">
+
+          {/* Left: contact info */}
+          <div className="space-y-8">
+            <a
+              href="mailto:hello@samcreatives.co"
+              className="group inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
+              style={{ color: "#888888" }}
+            >
+              <span className="group-hover:text-[#FF3333] transition-colors">hello@samcreatives.co</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
             </a>
-            <dl className="grid grid-cols-2 gap-6 border-t border-border pt-8">
-              <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Studio</dt>
-                <dd className="mt-2 text-sm text-foreground">Remote-first · Global</dd>
-              </div>
-              <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Response</dt>
-                <dd className="mt-2 text-sm text-foreground">Within 24 hours</dd>
-              </div>
-              <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Ideal budget</dt>
-                <dd className="mt-2 text-sm text-foreground">$5k+ per engagement</dd>
-              </div>
-              <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Q3 slots</dt>
-                <dd className="mt-2 text-sm text-primary">3 remaining</dd>
-              </div>
+
+            <dl
+              className="grid grid-cols-2 gap-6 border-t pt-8"
+              style={{ borderColor: "rgba(245,245,245,0.08)" }}
+            >
+              {[
+                { k: "Location",    v: "India · Remote-first" },
+                { k: "Response",    v: "Within 24 hours" },
+                { k: "Contracts",   v: "30-day rolling" },
+                { k: "Slots Left",  v: "2 of 4 open", accent: true },
+              ].map((item) => (
+                <div key={item.k}>
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.2em]" style={{ color: "#888888" }}>
+                    {item.k}
+                  </dt>
+                  <dd className="mt-1.5 font-mono text-[12px]" style={{ color: (item as any).accent ? "#FF3333" : "#F5F5F5" }}>
+                    {item.v}
+                  </dd>
+                </div>
+              ))}
             </dl>
+
+            {/* IG link */}
+            <a
+              href="https://instagram.com/sam.creattive"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors"
+              style={{ color: "#888888" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F5F5")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#888888")}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+              </svg>
+              @sam.creattive
+            </a>
           </div>
 
-          <div className="glass rounded-3xl p-6 sm:p-8">
-            <div className="mb-8 inline-flex rounded-full border border-border p-1 text-[11px] uppercase tracking-[0.18em]">
-              {(["service", "demo"] as Mode[]).map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => setMode(m)}
-                  className={`relative rounded-full px-4 py-2 font-mono transition-colors ${mode === m ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
-                >
-                  {mode === m && (
-                    <motion.span layoutId="mode-pill" className="absolute inset-0 rounded-full bg-primary" transition={{ type: "spring", stiffness: 300, damping: 26 }} />
-                  )}
-                  <span className="relative">{m === "service" ? "Book a service" : "Request a demo"}</span>
-                </button>
-              ))}
+          {/* Right: order ticket */}
+          <div>
+            {/* Ticket header */}
+            <div
+              className="flex items-center justify-between px-4 py-3 sm:px-6"
+              style={{ background: "#FF3333" }}
+            >
+              <span className="font-mono text-[11px] uppercase tracking-[0.22em]" style={{ color: "#F5F5F5" }}>
+                // ORDER TICKET
+              </span>
+              <span className="font-mono text-[10px]" style={{ color: "rgba(245,245,245,0.7)" }}>
+                {selectedPlay ? selectedPlay.price : "Pick your play below ↓"}
+              </span>
             </div>
 
-            <form onSubmit={onSubmit} className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <Field id="name" label="Your name" />
-              <Field id="email" label="Email" type="email" />
-              <Field id="brand" label="Brand / Company" />
-              <Field id="budget" label={mode === "demo" ? "Interested tier" : "Budget range"} required={false} />
-              <div className="sm:col-span-2">
-                <Field id="message" label={mode === "demo" ? "What would you like to see?" : "Tell us about the project"} textarea />
-              </div>
-              {/* honeypot */}
+            <form
+              onSubmit={onSubmit}
+              style={{
+                background: "#1a1a1a",
+                border: "1px solid rgba(245,245,245,0.08)",
+                borderTop: "none",
+              }}
+            >
+              {/* Honeypot */}
               <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
 
-              <div className="mt-2 flex flex-wrap items-center justify-between gap-4 sm:col-span-2">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                  Delivered to inbox via Web3Forms
-                </p>
+              {/* Fields */}
+              <TicketField
+                id="name"
+                label="Name / Shop Name"
+                sublabel="Your name or your business name"
+                placeholder="e.g. Rahul / The Denim Co."
+                value={name}
+                onChange={setName}
+              />
+              <TicketField
+                id="instagram"
+                label="Instagram Handle"
+                sublabel="We audit your profile before the call"
+                placeholder="@yourhandle"
+                value={instagram}
+                onChange={setInstagram}
+              />
+              <PlaySelector value={play} onChange={setPlay} />
+              <BottleneckField value={bottleneck} onChange={setBottleneck} />
+
+              {/* Submit row */}
+              <div
+                className="flex flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+                style={{ borderTop: "1px solid rgba(245,245,245,0.08)" }}
+              >
+                <span className="font-mono text-[9px] uppercase tracking-[0.18em]" style={{ color: "#444444" }}>
+                  No lock-in · 30-day rolling
+                </span>
                 <button
                   type="submit"
-                  disabled={state === "sending"}
-                  className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.18em] text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-70"
+                  disabled={state === "sending" || !play}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-mono text-[11px] uppercase tracking-[0.22em] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ background: "#FF3333", color: "#F5F5F5", border: "1px solid #FF3333" }}
+                  onMouseEnter={(e) => {
+                    if (state !== "sending" && play) {
+                      (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                      (e.currentTarget as HTMLButtonElement).style.color = "#FF3333";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = "#FF3333";
+                    (e.currentTarget as HTMLButtonElement).style.color = "#F5F5F5";
+                  }}
                 >
-                  {state === "sending" ? "Sending…" : mode === "demo" ? "Request demo" : "Send inquiry"}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-hover:translate-x-0.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  {state === "sending" ? "Sending…" : "Place Order →"}
                 </button>
               </div>
 
               <AnimatePresence>
                 {state === "ok" && (
-                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="rounded-2xl border border-primary/40 bg-primary/10 p-4 text-sm text-foreground sm:col-span-2">
-                    Sent. We'll be in your inbox within one business day.
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="mx-6 mb-5 font-mono text-[12px] p-4"
+                    style={{ border: "1px solid rgba(212,255,0,0.4)", background: "rgba(212,255,0,0.06)", color: "#D4FF00" }}
+                  >
+                    ✓ Order placed. We'll audit your IG and DM you within 24 hours.
                   </motion.div>
                 )}
                 {state === "err" && (
-                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-foreground sm:col-span-2">
-                    Couldn't send: {error || "please try again or email directly."}
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="mx-6 mb-5 font-mono text-[12px] p-4"
+                    style={{ border: "1px solid rgba(255,51,51,0.4)", background: "rgba(255,51,51,0.06)", color: "#FF3333" }}
+                  >
+                    ✗ {error || "Couldn't send — please email us directly."}
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -8,12 +8,12 @@ export function Preloader() {
   useEffect(() => {
     let raf = 0;
     const start = performance.now();
-    const dur = 1400;
+    const dur = 1200;
     const tick = (t: number) => {
       const p = Math.min(1, (t - start) / dur);
       setPct(Math.round(p * 100));
       if (p < 1) raf = requestAnimationFrame(tick);
-      else setTimeout(() => setDone(true), 250);
+      else setTimeout(() => setDone(true), 200);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
@@ -25,18 +25,52 @@ export function Preloader() {
         <motion.div
           initial={{ clipPath: "inset(0 0 0 0)" }}
           exit={{ clipPath: "inset(0 0 100% 0)" }}
-          transition={{ duration: 0.9, ease: [0.85, 0, 0.15, 1] }}
-          className="fixed inset-0 z-[1000] flex items-end justify-between bg-background px-8 pb-8"
+          transition={{ duration: 0.8, ease: [0.85, 0, 0.15, 1] }}
+          className="fixed inset-0 z-[1000] flex items-end justify-between px-8 pb-8"
+          style={{ background: "#111111" }}
         >
-          <div className="font-display text-[18vw] leading-none tracking-tighter text-foreground/95 sm:text-[10vw]">
-            sam<span className="text-primary">.</span>
+          {/* Big wordmark */}
+          <div
+            className="uppercase leading-none tracking-tighter"
+            style={{
+              fontFamily: "Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif",
+              fontSize: "clamp(5rem, 18vw, 14rem)",
+              lineHeight: 0.85,
+              color: "#F5F5F5",
+            }}
+          >
+            SAM
+            <span style={{ color: "#FF3333" }}>.</span>
           </div>
-          <div className="flex flex-col items-end gap-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            <span>loading</span>
-            <span className="font-display text-4xl text-foreground">{String(pct).padStart(3, "0")}</span>
+
+          {/* Counter + status */}
+          <div className="flex flex-col items-end gap-2">
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#888888]">
+              initializing
+            </span>
+            <span
+              style={{
+                fontFamily: "Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif",
+                fontSize: "3rem",
+                lineHeight: 1,
+                color: "#F5F5F5",
+              }}
+            >
+              {String(pct).padStart(3, "0")}
+            </span>
           </div>
-          <div className="absolute inset-x-8 bottom-6 h-px bg-border">
-            <motion.div className="h-full bg-primary" animate={{ width: `${pct}%` }} transition={{ ease: "linear" }} />
+
+          {/* Progress bar */}
+          <div
+            className="absolute inset-x-8 bottom-6 h-px"
+            style={{ background: "rgba(245,245,245,0.1)" }}
+          >
+            <motion.div
+              className="h-full"
+              style={{ background: "#FF3333" }}
+              animate={{ width: `${pct}%` }}
+              transition={{ ease: "linear" }}
+            />
           </div>
         </motion.div>
       )}

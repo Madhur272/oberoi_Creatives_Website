@@ -47,47 +47,50 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
-  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+  /* Brutalist production house fonts */
+  --font-display: "Impact", "Haettenschweiler", "Arial Narrow Bold", ui-sans-serif, sans-serif;
+  --font-sans: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.10 0.012 285);
-  --surface: oklch(0.13 0.014 285);
-  --surface-2: oklch(0.17 0.018 285);
-  --foreground: oklch(0.97 0.005 285);
-  --muted-foreground: oklch(0.65 0.015 285);
-  --card: oklch(0.13 0.014 285);
-  --card-foreground: oklch(0.97 0.005 285);
-  --popover: oklch(0.13 0.014 285);
-  --popover-foreground: oklch(0.97 0.005 285);
-  --primary: oklch(0.65 0.24 295);
-  --primary-foreground: oklch(0.10 0.012 285);
-  --secondary: oklch(0.20 0.02 285);
-  --secondary-foreground: oklch(0.97 0.005 285);
-  --muted: oklch(0.17 0.018 285);
-  --accent: oklch(0.65 0.24 295);
-  --accent-foreground: oklch(0.10 0.012 285);
-  --destructive: oklch(0.65 0.24 25);
-  --destructive-foreground: oklch(0.97 0.005 285);
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 10%);
-  --ring: oklch(0.65 0.24 295);
-  --chart-1: oklch(0.65 0.24 295);
-  --chart-2: oklch(0.7 0.2 320);
-  --chart-3: oklch(0.6 0.22 270);
-  --chart-4: oklch(0.75 0.18 340);
-  --chart-5: oklch(0.55 0.24 250);
-  --sidebar: oklch(0.13 0.014 285);
-  --sidebar-foreground: oklch(0.97 0.005 285);
-  --sidebar-primary: oklch(0.65 0.24 295);
-  --sidebar-primary-foreground: oklch(0.10 0.012 285);
-  --sidebar-accent: oklch(0.20 0.02 285);
-  --sidebar-accent-foreground: oklch(0.97 0.005 285);
-  --sidebar-border: oklch(1 0 0 / 8%);
-  --sidebar-ring: oklch(0.65 0.24 295);
+  --radius: 0.25rem;
+  /* Matte Gaffer Tape Black */
+  --background: #111111;
+  /* Slightly lifted surface */
+  --surface: #1a1a1a;
+  --surface-2: #222222;
+  /* Harsh White */
+  --foreground: #F5F5F5;
+  --muted-foreground: #888888;
+  /* Focus Peaking Red */
+  --primary: #FF3333;
+  --primary-foreground: #F5F5F5;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #F5F5F5;
+  --muted: #1a1a1a;
+  --accent: #FF3333;
+  --accent-foreground: #F5F5F5;
+  --destructive: #FF3333;
+  --destructive-foreground: #F5F5F5;
+  --border: rgba(245, 245, 245, 0.08);
+  --input: rgba(245, 245, 245, 0.10);
+  --ring: #FF3333;
+  /* Timeline Yellow - secondary accent */
+  --yellow: #D4FF00;
+  --chart-1: #FF3333;
+  --chart-2: #D4FF00;
+  --chart-3: #F5F5F5;
+  --chart-4: #888888;
+  --chart-5: #444444;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #F5F5F5;
+  --sidebar-primary: #FF3333;
+  --sidebar-primary-foreground: #F5F5F5;
+  --sidebar-accent: #222222;
+  --sidebar-accent-foreground: #F5F5F5;
+  --sidebar-border: rgba(245, 245, 245, 0.08);
+  --sidebar-ring: #FF3333;
 }
 
 @layer base {
@@ -103,38 +106,53 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
+    font-family: var(--font-mono);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    /* Push content above home indicator on iOS */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
+  /* Selection uses red accent */
   ::selection {
-    background: color-mix(in oklab, var(--color-accent) 45%, transparent);
-    color: var(--color-foreground);
+    background: rgba(255, 51, 51, 0.35);
+    color: #F5F5F5;
   }
 
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: var(--color-background); }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #111111; }
   ::-webkit-scrollbar-thumb {
-    background: color-mix(in oklab, var(--color-accent) 30%, var(--color-surface-2));
-    border-radius: 999px;
+    background: #FF3333;
+    border-radius: 0;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in oklab, var(--color-accent) 55%, var(--color-surface-2));
+    background: #ff5555;
+  }
+
+  /* Hide scrollbar on small touch devices (horizontal scroll areas like calendar) */
+  @media (max-width: 639px) {
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
+/* Glass utility - dark & minimal */
 @utility glass {
-  background: color-mix(in oklab, var(--color-surface) 55%, transparent);
-  backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid var(--color-border);
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(245, 245, 245, 0.08);
 }
 
 @utility text-balance {
   text-wrap: balance;
 }
 
+/* Subtle film grain overlay */
 @utility noise {
   position: relative;
   &::after {
@@ -142,14 +160,40 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.035;
+    opacity: 0.025;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 }
 
+/* Red glow accent */
 @utility accent-glow {
-  background: radial-gradient(60% 60% at 50% 50%, color-mix(in oklab, var(--color-accent) 60%, transparent) 0%, transparent 70%);
+  background: radial-gradient(60% 60% at 50% 50%, rgba(255, 51, 51, 0.35) 0%, transparent 70%);
+}
+
+/* Viewfinder corner bracket utility */
+@utility viewfinder {
+  position: relative;
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: #FF3333;
+    border-style: solid;
+    pointer-events: none;
+    z-index: 10;
+  }
+  &::before {
+    top: 0;
+    left: 0;
+    border-width: 2px 0 0 2px;
+  }
+  &::after {
+    bottom: 0;
+    right: 0;
+    border-width: 0 2px 2px 0;
+  }
 }
 
 @keyframes marquee {
@@ -157,8 +201,49 @@
   to { transform: translateX(-50%); }
 }
 
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 @keyframes float-orb {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33% { transform: translate(20px, -30px) scale(1.05); }
   66% { transform: translate(-15px, 20px) scale(0.98); }
+}
+
+/* ── Vengence UI: FlipText ───────────────────────────────────── */
+@keyframes flipChar {
+  0%   { transform: rotateX(0deg);    opacity: 1; }
+  45%  { transform: rotateX(90deg);   opacity: 0; }
+  55%  { transform: rotateX(-90deg);  opacity: 0; }
+  100% { transform: rotateX(0deg);    opacity: 1; }
+}
+
+.flip-char {
+  animation: flipChar
+    var(--flip-duration, 2.2s)
+    ease-in-out
+    var(--flip-delay, 0s)
+    var(--flip-iteration, infinite);
+  animation-fill-mode: both;
+  display: inline-block;
+  backface-visibility: hidden;
+}
+
+/* Hover-triggered flip — loop: false, fires on parent hover */
+.flip-text-hover .flip-char {
+  animation: none;
+}
+.flip-text-hover:hover .flip-char {
+  animation: flipChar
+    var(--flip-duration, 0.45s)
+    ease-in-out
+    var(--flip-delay, 0s)
+    1 forwards;
 }

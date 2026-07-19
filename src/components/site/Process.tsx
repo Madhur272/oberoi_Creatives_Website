@@ -51,56 +51,62 @@ const CALENDAR: CalendarDay[] = [
   { day: 30, type: "REEL",       label: "Win Highlight / Analytics" },
 ];
 
-const TYPE_STYLES: Record<ContentType, { bg: string; color: string; label: string }> = {
-  "REEL+SHOOT": { bg: "rgba(255,51,51,0.18)",  color: "#FF3333", label: "SHOOT + REEL" },
-  "REEL":       { bg: "rgba(245,245,245,0.08)", color: "#F5F5F5", label: "REEL" },
-  "STATIC":     { bg: "rgba(212,255,0,0.08)",   color: "#D4FF00", label: "STATIC" },
-  "STORY":      { bg: "rgba(245,245,245,0.05)", color: "#888888", label: "STORY" },
-  "TRENDING":   { bg: "rgba(255,51,51,0.10)",   color: "#FF8888", label: "TRENDING" },
-  "COLLAB":     { bg: "rgba(212,255,0,0.05)",   color: "#aad400", label: "COLLAB" },
-  "REST":       { bg: "transparent",            color: "#444444", label: "REST" },
+const TYPE_STYLES: Record<ContentType, { bg: string; color: string; label: string; textColor: string }> = {
+  "REEL+SHOOT": { bg: "#FF3333",                   color: "#FFFFFF", label: "SHOOT + REEL", textColor: "rgba(255,255,255,0.75)" },
+  "REEL":       { bg: "rgba(245,245,245,0.06)",    color: "#F5F5F5", label: "REEL",         textColor: "#666666" },
+  "STATIC":     { bg: "rgba(212,255,0,0.10)",      color: "#D4FF00", label: "STATIC",       textColor: "#888888" },
+  "STORY":      { bg: "rgba(245,245,245,0.03)",    color: "#888888", label: "STORY",        textColor: "#555555" },
+  "TRENDING":   { bg: "rgba(255,100,100,0.12)",    color: "#FF8888", label: "TRENDING",     textColor: "#666666" },
+  "COLLAB":     { bg: "rgba(212,255,0,0.07)",      color: "#aad400", label: "COLLAB",       textColor: "#666666" },
+  "REST":       { bg: "transparent",               color: "#444444", label: "REST",         textColor: "#333333" },
 };
 
 // ─── Calendar cell ────────────────────────────────────────────────────────────
 
 function CalCell({ day }: { day: CalendarDay }) {
-  const style = TYPE_STYLES[day.type];
+  const s = TYPE_STYLES[day.type];
+  const isShoot = day.type === "REEL+SHOOT";
+
   return (
     <div
-      className="relative flex flex-col justify-between p-2 transition-all duration-150 hover:brightness-125"
+      className="relative flex flex-col justify-between transition-all duration-150"
       style={{
-        background: style.bg,
-        border: "1px solid rgba(245,245,245,0.05)",
-        minHeight: 70,
+        background: s.bg,
+        border: isShoot ? "1px solid #FF3333" : "1px solid rgba(245,245,245,0.05)",
+        minHeight: 90,
+        padding: "10px 10px 9px",
         cursor: "default",
       }}
     >
-      {/* Day number */}
-      <div
-        className="font-mono text-[9px] leading-none"
-        style={{ color: day.type === "REEL+SHOOT" ? "#FF3333" : "#555555" }}
-      >
-        {String(day.day).padStart(2, "0")}
-        {day.type === "REEL+SHOOT" && (
+      {/* Day number row */}
+      <div className="flex items-center justify-between mb-2">
+        <span
+          className="font-mono text-[10px] leading-none font-medium"
+          style={{ color: isShoot ? "rgba(255,255,255,0.55)" : "#444444" }}
+        >
+          {String(day.day).padStart(2, "0")}
+        </span>
+        {isShoot && (
           <span
-            className="ml-1 font-mono text-[8px] uppercase"
-            style={{ color: "#FF3333" }}
+            className="font-mono text-[8px] uppercase tracking-[0.14em] px-1.5 py-0.5"
+            style={{ background: "rgba(0,0,0,0.25)", color: "#ffffff" }}
           >
-            ● SHOOT
+            📍 ON-SITE
           </span>
         )}
       </div>
-      {/* Content type badge */}
+
+      {/* Content type + label */}
       <div>
         <div
-          className="font-mono text-[8px] uppercase tracking-[0.12em] mb-0.5"
-          style={{ color: style.color }}
+          className="font-mono text-[8px] uppercase tracking-[0.14em] mb-1"
+          style={{ color: s.color, fontWeight: isShoot ? 700 : 400 }}
         >
-          {style.label}
+          {s.label}
         </div>
         <div
-          className="font-mono text-[8px] leading-tight"
-          style={{ color: "#888888" }}
+          className="font-mono text-[9px] leading-tight"
+          style={{ color: isShoot ? "rgba(255,255,255,0.7)" : s.textColor }}
         >
           {day.label}
         </div>
@@ -117,10 +123,10 @@ function LegendItem({ type }: { type: ContentType }) {
     <div className="flex items-center gap-2">
       <div
         style={{
-          width: 10,
-          height: 10,
+          width: 12,
+          height: 12,
           background: s.bg,
-          border: `1px solid ${s.color}`,
+          border: type === "REEL+SHOOT" ? "none" : `1px solid ${s.color}`,
           flexShrink: 0,
         }}
       />

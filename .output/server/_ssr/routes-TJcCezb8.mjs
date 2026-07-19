@@ -1,7 +1,7 @@
 import { a as __toESM } from "../_runtime.mjs";
 import { a as performance_default, i as AnimatePresence, n as useMotionValue, r as motion, t as useSpring } from "../_libs/framer-motion.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-IC8eR23K.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-TJcCezb8.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Preloader() {
@@ -160,7 +160,7 @@ function Logo({ className = "" }) {
 		})]
 	});
 }
-function MagneticButton({ children, href, onClick, variant = "primary", className = "", strength = .35 }) {
+function MagneticButton({ children, href, onClick, variant = "primary", className = "", strength = .35, accentColor }) {
 	const ref = (0, import_react.useRef)(null);
 	const x = useSpring(useMotionValue(0), {
 		stiffness: 200,
@@ -183,6 +183,15 @@ function MagneticButton({ children, href, onClick, variant = "primary", classNam
 		x.set(0);
 		y.set(0);
 	};
+	const fill = accentColor?.fill ?? (variant === "primary" ? "#FF3333" : "transparent");
+	const text = accentColor?.text ?? (variant === "primary" ? "#F5F5F5" : "#F5F5F5");
+	const borderCol = accentColor?.fill ?? (variant === "primary" ? "#FF3333" : "rgba(245,245,245,0.2)");
+	const baseStyle = {
+		background: fill,
+		color: text,
+		border: `1px solid ${borderCol}`,
+		borderRadius: 0
+	};
 	const base = "group relative inline-flex items-center gap-2 px-7 py-3.5 font-mono text-[11px] uppercase tracking-[0.22em] transition-all will-change-transform select-none";
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(href ? motion.a : motion.button, {
 		ref,
@@ -193,36 +202,24 @@ function MagneticButton({ children, href, onClick, variant = "primary", classNam
 		style: {
 			x,
 			y,
-			...variant === "primary" ? {
-				background: "#FF3333",
-				color: "#F5F5F5",
-				border: "1px solid #FF3333",
-				borderRadius: 0
-			} : {
-				background: "transparent",
-				color: "#F5F5F5",
-				border: "1px solid rgba(245,245,245,0.2)",
-				borderRadius: 0
-			}
+			...baseStyle
 		},
 		className: `${base} ${className}`,
 		onMouseEnter: (e) => {
-			if (variant === "primary") {
-				e.currentTarget.style.background = "transparent";
-				e.currentTarget.style.color = "#FF3333";
-			} else {
-				e.currentTarget.style.background = "rgba(245,245,245,0.05)";
-				e.currentTarget.style.borderColor = "rgba(245,245,245,0.4)";
+			const el = e.currentTarget;
+			el.style.background = "transparent";
+			el.style.color = borderCol;
+			if (variant === "ghost" && !accentColor) {
+				el.style.background = "rgba(245,245,245,0.05)";
+				el.style.borderColor = "rgba(245,245,245,0.4)";
+				el.style.color = "#F5F5F5";
 			}
 		},
 		onMouseLeaveCapture: (e) => {
-			if (variant === "primary") {
-				e.currentTarget.style.background = "#FF3333";
-				e.currentTarget.style.color = "#F5F5F5";
-			} else {
-				e.currentTarget.style.background = "transparent";
-				e.currentTarget.style.borderColor = "rgba(245,245,245,0.2)";
-			}
+			const el = e.currentTarget;
+			el.style.background = fill;
+			el.style.color = text;
+			el.style.borderColor = borderCol;
 		},
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.span, {
 			style: {
@@ -946,6 +943,10 @@ function Hero() {
 						className: "mt-10",
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MagneticButton, {
 							href: "#services",
+							accentColor: {
+								fill: "#D4FF00",
+								text: "#111111"
+							},
 							children: "View Our Packages →"
 						})
 					}),
@@ -1055,11 +1056,11 @@ function SectionLabel({ index, children }) {
 }
 function DeliverableRow({ label, value, accent = false }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "flex items-start justify-between gap-4 border-b py-3",
+		className: "flex items-start justify-between gap-4 border-b py-4",
 		style: { borderColor: "rgba(245,245,245,0.07)" },
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "font-mono text-[11px] uppercase tracking-[0.16em] shrink-0",
-			style: { color: "#888888" },
+			className: "font-mono text-[11px] uppercase tracking-[0.16em] shrink-0 pt-0.5",
+			style: { color: "#555555" },
 			children: label
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 			className: "font-mono text-[12px] text-right leading-relaxed",
@@ -1091,15 +1092,15 @@ function PackageCard({ tier, name, price, tagline, deliverables, highlight, badg
 				children: badge
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "p-7 pb-0",
+				className: "p-9 pb-0",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "mb-5 font-mono text-[10px] uppercase tracking-[0.26em]",
+						className: "mb-6 font-mono text-[10px] uppercase tracking-[0.26em]",
 						style: { color: "#888888" },
 						children: tier
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-						className: "uppercase leading-[1] mb-2",
+						className: "uppercase leading-[1] mb-3",
 						style: {
 							fontFamily: "Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif",
 							fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
@@ -1109,7 +1110,7 @@ function PackageCard({ tier, name, price, tagline, deliverables, highlight, badg
 						children: name
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "mb-1",
+						className: "mb-2",
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "leading-none",
 							style: {
@@ -1122,19 +1123,19 @@ function PackageCard({ tier, name, price, tagline, deliverables, highlight, badg
 						})
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "mb-6 font-mono text-[10px] uppercase tracking-[0.18em]",
+						className: "mb-8 font-mono text-[10px] uppercase tracking-[0.18em]",
 						style: { color: "#888888" },
 						children: "per month · 30-day rolling · no lock-in"
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "mb-6 font-mono text-[12px] leading-[1.8]",
+						className: "mb-8 font-mono text-[12px] leading-[1.9]",
 						style: { color: "#888888" },
 						children: tagline
 					})
 				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "px-7 pb-7",
+				className: "px-9 pb-9",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "mb-3 font-mono text-[9px] uppercase tracking-[0.28em]",
 					style: { color: "#FF3333" },
@@ -1450,66 +1451,84 @@ var CALENDAR = [
 ];
 var TYPE_STYLES = {
 	"REEL+SHOOT": {
-		bg: "rgba(255,51,51,0.18)",
-		color: "#FF3333",
-		label: "SHOOT + REEL"
+		bg: "#FF3333",
+		color: "#FFFFFF",
+		label: "SHOOT + REEL",
+		textColor: "rgba(255,255,255,0.75)"
 	},
 	"REEL": {
-		bg: "rgba(245,245,245,0.08)",
+		bg: "rgba(245,245,245,0.06)",
 		color: "#F5F5F5",
-		label: "REEL"
+		label: "REEL",
+		textColor: "#666666"
 	},
 	"STATIC": {
-		bg: "rgba(212,255,0,0.08)",
+		bg: "rgba(212,255,0,0.10)",
 		color: "#D4FF00",
-		label: "STATIC"
+		label: "STATIC",
+		textColor: "#888888"
 	},
 	"STORY": {
-		bg: "rgba(245,245,245,0.05)",
+		bg: "rgba(245,245,245,0.03)",
 		color: "#888888",
-		label: "STORY"
+		label: "STORY",
+		textColor: "#555555"
 	},
 	"TRENDING": {
-		bg: "rgba(255,51,51,0.10)",
+		bg: "rgba(255,100,100,0.12)",
 		color: "#FF8888",
-		label: "TRENDING"
+		label: "TRENDING",
+		textColor: "#666666"
 	},
 	"COLLAB": {
-		bg: "rgba(212,255,0,0.05)",
+		bg: "rgba(212,255,0,0.07)",
 		color: "#aad400",
-		label: "COLLAB"
+		label: "COLLAB",
+		textColor: "#666666"
 	},
 	"REST": {
 		bg: "transparent",
 		color: "#444444",
-		label: "REST"
+		label: "REST",
+		textColor: "#333333"
 	}
 };
 function CalCell({ day }) {
-	const style = TYPE_STYLES[day.type];
+	const s = TYPE_STYLES[day.type];
+	const isShoot = day.type === "REEL+SHOOT";
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "relative flex flex-col justify-between p-2 transition-all duration-150 hover:brightness-125",
+		className: "relative flex flex-col justify-between transition-all duration-150",
 		style: {
-			background: style.bg,
-			border: "1px solid rgba(245,245,245,0.05)",
-			minHeight: 70,
+			background: s.bg,
+			border: isShoot ? "1px solid #FF3333" : "1px solid rgba(245,245,245,0.05)",
+			minHeight: 90,
+			padding: "10px 10px 9px",
 			cursor: "default"
 		},
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "font-mono text-[9px] leading-none",
-			style: { color: day.type === "REEL+SHOOT" ? "#FF3333" : "#555555" },
-			children: [String(day.day).padStart(2, "0"), day.type === "REEL+SHOOT" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-				className: "ml-1 font-mono text-[8px] uppercase",
-				style: { color: "#FF3333" },
-				children: "● SHOOT"
+			className: "flex items-center justify-between mb-2",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "font-mono text-[10px] leading-none font-medium",
+				style: { color: isShoot ? "rgba(255,255,255,0.55)" : "#444444" },
+				children: String(day.day).padStart(2, "0")
+			}), isShoot && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "font-mono text-[8px] uppercase tracking-[0.14em] px-1.5 py-0.5",
+				style: {
+					background: "rgba(0,0,0,0.25)",
+					color: "#ffffff"
+				},
+				children: "📍 ON-SITE"
 			})]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "font-mono text-[8px] uppercase tracking-[0.12em] mb-0.5",
-			style: { color: style.color },
-			children: style.label
+			className: "font-mono text-[8px] uppercase tracking-[0.14em] mb-1",
+			style: {
+				color: s.color,
+				fontWeight: isShoot ? 700 : 400
+			},
+			children: s.label
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "font-mono text-[8px] leading-tight",
-			style: { color: "#888888" },
+			className: "font-mono text-[9px] leading-tight",
+			style: { color: isShoot ? "rgba(255,255,255,0.7)" : s.textColor },
 			children: day.label
 		})] })]
 	});
@@ -1519,10 +1538,10 @@ function LegendItem({ type }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "flex items-center gap-2",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-			width: 10,
-			height: 10,
+			width: 12,
+			height: 12,
 			background: s.bg,
-			border: `1px solid ${s.color}`,
+			border: type === "REEL+SHOOT" ? "none" : `1px solid ${s.color}`,
 			flexShrink: 0
 		} }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 			className: "font-mono text-[9px] uppercase tracking-[0.18em]",

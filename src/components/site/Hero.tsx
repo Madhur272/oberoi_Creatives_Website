@@ -264,14 +264,19 @@ export function Hero() {
             identity, one 4K frame at a time.
           </motion.p>
 
-          {/* CTA */}
+          {/* CTA — Timeline Yellow to break the eye away from red */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.55 }}
             className="mt-10"
           >
-            <MagneticButton href="#services">View Our Packages →</MagneticButton>
+            <MagneticButton
+              href="#services"
+              accentColor={{ fill: "#D4FF00", text: "#111111" }}
+            >
+              View Our Packages →
+            </MagneticButton>
           </motion.div>
 
           {/* Stats row */}

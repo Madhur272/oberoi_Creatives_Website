@@ -6,12 +6,12 @@ import { SectionLabel } from "./SectionLabel";
 function DeliverableRow({ label, value, accent = false }: { label: string; value: string; accent?: boolean }) {
   return (
     <div
-      className="flex items-start justify-between gap-4 border-b py-3"
+      className="flex items-start justify-between gap-4 border-b py-4"
       style={{ borderColor: "rgba(245,245,245,0.07)" }}
     >
       <span
-        className="font-mono text-[11px] uppercase tracking-[0.16em] shrink-0"
-        style={{ color: "#888888" }}
+        className="font-mono text-[11px] uppercase tracking-[0.16em] shrink-0 pt-0.5"
+        style={{ color: "#555555" }}
       >
         {label}
       </span>
@@ -65,15 +65,15 @@ function PackageCard({
         </div>
       )}
 
-      <div className="p-7 pb-0">
+      <div className="p-9 pb-0">
         {/* Tier label */}
-        <div className="mb-5 font-mono text-[10px] uppercase tracking-[0.26em]" style={{ color: "#888888" }}>
+        <div className="mb-6 font-mono text-[10px] uppercase tracking-[0.26em]" style={{ color: "#888888" }}>
           {tier}
         </div>
 
         {/* Package name */}
         <h3
-          className="uppercase leading-[1] mb-2"
+          className="uppercase leading-[1] mb-3"
           style={{
             fontFamily: "Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif",
             fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
@@ -85,7 +85,7 @@ function PackageCard({
         </h3>
 
         {/* Price */}
-        <div className="mb-1">
+        <div className="mb-2">
           <span
             className="leading-none"
             style={{
@@ -98,18 +98,18 @@ function PackageCard({
             {price}
           </span>
         </div>
-        <div className="mb-6 font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: "#888888" }}>
+        <div className="mb-8 font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: "#888888" }}>
           per month · 30-day rolling · no lock-in
         </div>
 
         {/* Tagline */}
-        <p className="mb-6 font-mono text-[12px] leading-[1.8]" style={{ color: "#888888" }}>
+        <p className="mb-8 font-mono text-[12px] leading-[1.9]" style={{ color: "#888888" }}>
           {tagline}
         </p>
       </div>
 
       {/* Deliverables */}
-      <div className="px-7 pb-7">
+      <div className="px-9 pb-9">
         <div
           className="mb-3 font-mono text-[9px] uppercase tracking-[0.28em]"
           style={{ color: "#FF3333" }}

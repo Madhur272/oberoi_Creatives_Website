@@ -7,7 +7,7 @@ import { SectionLabel } from "./SectionLabel";
 //   1. Grab your access key at https://web3forms.com (free)
 //   2. Replace the string below.
 // ─────────────────────────────────────────────────────────────
-const WEB3FORMS_ACCESS_KEY = "REPLACE_WITH_YOUR_WEB3FORMS_KEY";
+const WEB3FORMS_ACCESS_KEY = "9f82bdde-d09a-44e7-9fd1-6cbe2fd30e43";
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
 type Play = "" | "15k" | "20k" | "custom";
@@ -182,8 +182,12 @@ export function Contact() {
     setState("sending");
     setError("");
 
+    // Capture the form element NOW — before any await, because React nullifies
+    // e.currentTarget after the event handler yields to the microtask queue.
+    const formEl = e.currentTarget;
+
     const selectedPlay = PLAY_OPTIONS.find((p) => p.value === play);
-    const fd = new FormData(e.currentTarget);
+    const fd = new FormData(formEl);
     fd.append("access_key", WEB3FORMS_ACCESS_KEY);
     fd.append(
       "subject",
@@ -197,7 +201,7 @@ export function Contact() {
       const json = await res.json();
       if (json.success) {
         setState("ok");
-        e.currentTarget.reset();
+        formEl.reset();
         setName(""); setInstagram(""); setPlay(""); setBottleneck("");
       } else {
         setState("err");
@@ -248,11 +252,11 @@ export function Contact() {
           {/* Left: contact info */}
           <div className="space-y-8">
             <a
-              href="mailto:hello@samcreatives.co"
+              href="mailto:oberoicreatives@gmail.com"
               className="group inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
               style={{ color: "#888888" }}
             >
-              <span className="group-hover:text-[#FF3333] transition-colors">hello@samcreatives.co</span>
+              <span className="group-hover:text-[#FF3333] transition-colors">oberoicreatives@gmail.com</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 <path d="M7 17L17 7M9 7h8v8" />
               </svg>
@@ -263,7 +267,7 @@ export function Contact() {
               style={{ borderColor: "rgba(245,245,245,0.08)" }}
             >
               {[
-                { k: "Location",    v: "India · Remote-first" },
+                { k: "Location",    v: "Delhi NCR. Onsite" },
                 { k: "Response",    v: "Within 24 hours" },
                 { k: "Contracts",   v: "30-day rolling" },
                 { k: "Slots Left",  v: "2 of 4 open", accent: true },
@@ -368,7 +372,7 @@ export function Contact() {
                     (e.currentTarget as HTMLButtonElement).style.color = "#F5F5F5";
                   }}
                 >
-                  {state === "sending" ? "Sending…" : "Place Order →"}
+                  {state === "sending" ? "Sending…" : "Book Call →"}
                 </button>
               </div>
 

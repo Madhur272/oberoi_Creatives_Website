@@ -18,59 +18,52 @@ interface Genre {
 
 const GENRES: Genre[] = [
   {
-    id: "retail",
-    label: "[RETAIL]",
-    description: "Shop aesthetics, new arrivals, B-roll, product reveals.",
-    count: "6 reels",
+    id: "promo",
+    label: "[STORE PROMO]",
+    description: "Shop aesthetics, collection overview, shop walkthroughs, architectural B-roll.",
+    count: "4 reels",
     items: [
-      { id: "retail-1", title: "Retail Reel 1", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "retail-2", title: "Retail Reel 2", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "retail-3", title: "Retail Reel 3", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "retail-4", title: "Retail Reel 4", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "retail-5", title: "Retail Reel 5", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "retail-6", title: "Retail Reel 6", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
+      { id: "promo-1", title: "Store Promo Reel 1", embedUrl: "https://www.youtube.com/embed/lRiYojq7fN4" },
+      { id: "promo-2", title: "Store Promo Reel 2", embedUrl: "https://www.youtube.com/embed/EE8iAAUzkD0" },
+      { id: "promo-3", title: "Store Promo Reel 3", embedUrl: "https://www.youtube.com/embed/HCjJS8NbIKU" },
+      { id: "promo-4", title: "Store Promo Reel 4", embedUrl: "https://www.youtube.com/embed/qTT7lduFkYg" }
     ],
   },
   {
-    id: "fnb",
-    label: "[F&B]",
-    description: "Food styling, kitchen process, sensory close-ups.",
+    id: "productPromot",
+    label: "[PRODUCT PROMOTION]",
+    description: "Product reveals, macro B-roll, feature highlights, unboxings, voice-over explainers.",
     count: "5 reels",
     items: [
-      { id: "fnb-1", title: "F&B Reel 1", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fnb-2", title: "F&B Reel 2", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fnb-3", title: "F&B Reel 3", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fnb-4", title: "F&B Reel 4", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fnb-5", title: "F&B Reel 5", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
+      { id: "product-1", title: "Product Reel 1", embedUrl: "https://www.youtube.com/embed/HhksAb9rd3E" },
+      { id: "product-2", title: "Product Reel 2", embedUrl: "https://www.youtube.com/embed/2GoUcknTmT4" },
+      { id: "product-3", title: "Product Reel 3", embedUrl: "https://www.youtube.com/embed/sD2reDAnZK8" },
+      { id: "product-4", title: "Product Reel 4", embedUrl: "https://www.youtube.com/embed/12jLVCO9i0Y" },
+      { id: "product-5", title: "Product Reel 5", embedUrl: "https://www.youtube.com/embed/GRs2Wa6jOZY" }
     ],
   },
   {
-    id: "fashion",
-    label: "[FASHION]",
-    description: "Model shoots, catalogue stills, lookbooks, transitions.",
-    count: "6 reels",
+    id: "mensFashion",
+    label: "[MEN'S FASHION]",
+    description: "Catalogue stills, lookbooks, new arrivals, B-roll, product reveals.",
+    count: "2 reels",
     items: [
-      { id: "fashion-1", title: "Fashion Reel 1", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fashion-2", title: "Fashion Reel 2", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fashion-3", title: "Fashion Reel 3", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fashion-4", title: "Fashion Reel 4", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fashion-5", title: "Fashion Reel 5", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "fashion-6", title: "Fashion Reel 6", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
+      { id: "mensFashion-1", title: "Men's Fashion Reel 1", embedUrl: "https://www.youtube.com/embed/2GoUcknTmT4" },
+      { id: "mensFashion-2", title: "Men's Fashion Reel 2", embedUrl: "https://www.youtube.com/embed/GRs2Wa6jOZY" }
+      // { id: "mensFashion-6", title: "Men's Fashion Reel 6", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
     ],
   },
   {
-    id: "realestate",
-    label: "[REAL ESTATE]",
-    description: "Property walkthroughs, architectural B-roll, drone cuts.",
-    count: "5 reels",
+    id: "ladiesFashion",
+    label: "[WOMEN'S FASHION]",
+    description: "Model Shoots, lookbooks, new arrivals, B-roll, product reveals.",
+    count: "3 reels",
     items: [
-      { id: "re-1", title: "Real Estate Reel 1", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "re-2", title: "Real Estate Reel 2", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "re-3", title: "Real Estate Reel 3", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "re-4", title: "Real Estate Reel 4", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
-      { id: "re-5", title: "Real Estate Reel 5", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
+      { id: "ladiesFashion-1", title: "Women's Fashion Reel 1", embedUrl: "https://www.youtube.com/embed/sD2reDAnZK8" },
+      { id: "ladiesFashion-2", title: "Women's Fashion Reel 2", embedUrl: "https://www.youtube.com/embed/12jLVCO9i0Y" },
+      { id: "ladiesFashion-3", title: "Women's Fashion Reel 3", embedUrl: "https://www.youtube.com/embed/lRiYojq7fN4" }
     ],
-  },
+  }
 ];
 
 // ─── Genre block ──────────────────────────────────────────────────────────────
@@ -202,12 +195,12 @@ export function Portfolio() {
           className="mt-6 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em]"
           style={{ color: "#888888" }}
         >
-          <span style={{ color: "#FF3333" }}>//</span>
+          {/* <span style={{ color: "#FF3333" }}>//</span>
           <span>
             Replace embed URLs in{" "}
             <code style={{ color: "#D4FF00" }}>Portfolio.tsx</code> with your
             actual IG reel or YouTube Short URLs to populate the carousel.
-          </span>
+          </span> */}
         </div>
       </div>
 

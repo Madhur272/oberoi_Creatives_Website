@@ -133,9 +133,9 @@ export function Results() {
               style={{ background: "linear-gradient(135deg, #FF3333 0%, #880000 100%)" }}
             />
             <div>
-              <div className="font-mono text-[12px] text-[#F5F5F5]">Riya Mehta</div>
+              <div className="font-mono text-[12px] text-[#F5F5F5]">Mr. Sunny</div>
               <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#888888]">
-                Founder · Bloom Skincare Co.
+                Owner · Ruby Hardware Store.
               </div>
             </div>
           </figcaption>

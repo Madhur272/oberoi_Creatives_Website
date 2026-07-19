@@ -3,7 +3,7 @@ const items = [
   "DAVINCI RESOLVE",
   "AFTER EFFECTS",
   "META ADS",
-  "TIKTOK ADS",
+  "X ADS",
   "YOUTUBE SHORTS",
   "SORA AI",
   "CINEMA 4D",

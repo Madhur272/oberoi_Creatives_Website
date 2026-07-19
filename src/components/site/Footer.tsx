@@ -2,9 +2,9 @@ import { Logo } from "./Logo";
 
 const socials = [
   { label: "Instagram", href: "https://instagram.com/sam.creattive" },
-  { label: "YouTube",   href: "https://youtube.com" },
-  { label: "TikTok",    href: "https://tiktok.com" },
-  { label: "LinkedIn",  href: "https://linkedin.com" },
+  { label: "YouTube",   href: "https://www.youtube.com/channel/UCZbb-koH4kt6g9QJcvM7Cvw" },
+  { label: "X [Twitter]",    href: "https://x.com" },
+  { label: "LinkedIn",  href: "https://in.linkedin.com" },
 ];
 
 export function Footer() {
@@ -24,10 +24,10 @@ export function Footer() {
             </p>
             {/* Email CTA */}
             <a
-              href="mailto:hello@samcreatives.co"
+              href="mailto:oberoicreatives@gmail.com"
               className="group mt-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#888888] transition-colors hover:text-[#FF3333]"
             >
-              hello@samcreatives.co
+              oberoicreatives@gmail.com
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 <path d="M7 17L17 7M9 7h8v8" />
               </svg>

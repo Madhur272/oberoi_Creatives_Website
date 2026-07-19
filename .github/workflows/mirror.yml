@@ -17,6 +17,6 @@ jobs:
 
       - name: Push to Account 2
         run: |
-          git remote add mirror https://x-access-token:${{ secrets.MIRROR_TOKEN }}@github.com/oberoicreatives764/PortfolioWebsite.git
+          git remote add mirror https://x-access-token:${{ secrets.MIRROR_TOKEN }}@github.com/oberoicreatives764/PortfolioWebsite
           git push mirror --force --all
           git push mirror --force --tags

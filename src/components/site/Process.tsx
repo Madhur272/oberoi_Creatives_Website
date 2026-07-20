@@ -208,7 +208,7 @@ export function Process() {
           style={{ background: "rgba(245,245,245,0.06)" }}
         >
           {[
-            { k: "7–8", v: "Shoot days / month", accent: true },
+            { k: "6-7", v: "Shoot days / month", accent: true },
             { k: "30",  v: "Posts delivered", accent: false },
             { k: "100%", v: "Calendar pre-approved by you", accent: false },
           ].map((s) => (

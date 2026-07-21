@@ -50,11 +50,12 @@ const GENRES: Genre[] = [
     id: "mensFashion",
     label: "[MEN'S FASHION]",
     description: "Catalogue stills, lookbooks, new arrivals, B-roll, product reveals.",
-    count: "3 reels",
+    count: "4 reels",
     items: [
-      { id: "mensFashion-1", title: "Men's Fashion Reel 1", embedUrl: "https://www.youtube.com/embed/2GoUcknTmT4" },
-      { id: "mensFashion-2", title: "Men's Fashion Reel 2", embedUrl: "https://www.youtube.com/embed/DqmfWDnjw4E" },
-      { id: "mensFashion-3", title: "Men's Fashion Reel 3", embedUrl: "https://www.youtube.com/embed/GRs2Wa6jOZY" }
+      { id: "mensFashion-1", title: "Men's Fashion Reel 1", embedUrl: "https://www.youtube.com/embed/sseXhDWZLxM" },
+      { id: "mensFashion-2", title: "Men's Fashion Reel 2", embedUrl: "https://www.youtube.com/embed/2GoUcknTmT4" },
+      { id: "mensFashion-3", title: "Men's Fashion Reel 3", embedUrl: "https://www.youtube.com/embed/DqmfWDnjw4E" },
+      { id: "mensFashion-4", title: "Men's Fashion Reel 4", embedUrl: "https://www.youtube.com/embed/GRs2Wa6jOZY" }
       // { id: "mensFashion-6", title: "Men's Fashion Reel 6", embedUrl: "https://www.instagram.com/reel/Da5N8NwyPGe/embed/" },
     ],
   },
